@@ -18,7 +18,7 @@ class PlaylistSerializer(WritableNestedModelSerializer, serializers.HyperlinkedM
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
-    playlist = PlaylistSerializer(many=True)
+    playlist = PlaylistSerializer(many=True, read_only=True)
     class Meta:
         model = User
         playlist = PlaylistSerializer()

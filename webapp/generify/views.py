@@ -18,6 +18,13 @@ class SongViewSet(viewsets.ModelViewSet):
     queryset = Song.objects.all().order_by('id')
     serializer_class = SongSerializer
     permission_classes = [permissions.AllowAny]
+    
+    def get_queryset(self):
+        qs = self.queryset
+        name = self.request.query_params.get('name')
+        if name:
+            qs = Song.objects.filter(name__icontains=name).order_by('id')
+        return qs
 
 
 class PlaylistViewSet(viewsets.ModelViewSet):
