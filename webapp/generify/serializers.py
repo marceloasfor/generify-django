@@ -14,12 +14,11 @@ class PlaylistSerializer(WritableNestedModelSerializer, serializers.HyperlinkedM
     song = SongSerializer(many=True)
     class Meta:
         model = Playlist
-        fields = ['id', 'name', 'cover', 'about', 'song']
+        fields = ['id', 'name', 'cover', 'about', 'user_id', 'song']
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
-    playlist = PlaylistSerializer(many=True, read_only=True)
     class Meta:
         model = User
         playlist = PlaylistSerializer()
-        fields = ['id', 'username', 'password', 'email', 'birthdate', 'playlist']
+        fields = ['id', 'username', 'password', 'email', 'birthdate']

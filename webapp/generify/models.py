@@ -24,7 +24,10 @@ class Playlist(models.Model):
         max_length=300,
     )
     song = models.ManyToManyField(Song)
-    is_private = models.BooleanField(default=False, blank=False)
+    user_id = models.IntegerField(
+        blank=True,
+        null=True,
+    )
 
     def __str__(self):
         return self.name
@@ -35,7 +38,6 @@ class User(models.Model):
     password = models.CharField(max_length=150)
     email = models.EmailField(max_length=254, unique=True)
     birthdate = models.DateField(blank=True)
-    playlist = models.ManyToManyField(Playlist, blank=True)
 
     def __str__(self):
         return self.username

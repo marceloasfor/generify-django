@@ -18,7 +18,7 @@ class SongViewSet(viewsets.ModelViewSet):
     queryset = Song.objects.all().order_by('id')
     serializer_class = SongSerializer
     permission_classes = [permissions.AllowAny]
-    
+
     def get_queryset(self):
         qs = self.queryset
         name = self.request.query_params.get('name')
@@ -31,9 +31,16 @@ class PlaylistViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows playlists to be viewed or edited.
     """
-    queryset = Playlist.objects.all().order_by('id')
+    queryset = Playlist.objects.filter(user_id__isnull=True).order_by('id')
     serializer_class = PlaylistSerializer
     permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        qs = self.queryset
+        user_id = self.request.query_params.get('user_id')
+        if user_id:
+            qs = Playlist.objects.filter(user_id=user_id).order_by('id')
+        return qs
 
 
 class UserViewSet(viewsets.ModelViewSet):
